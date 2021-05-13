@@ -15,4 +15,4 @@ use App\Http\Controllers\LoginController;
 |
 */
 // Route::get('/{any}', [ApplicationController::class, 'index'])->where('any', '.*');
-Route::get('/{any}', [LoginController::class, 'index'])->where('any', '.*');
+// Route::get('/{any}', [LoginController::class, 'index'])->where('any', '.*');

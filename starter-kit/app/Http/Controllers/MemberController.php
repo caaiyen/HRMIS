@@ -14,7 +14,8 @@ class MemberController extends Controller
      */
     public function index()
     {
-        
+        $members = Member::all();
+        return $members;
     }
 
     /**
@@ -35,7 +36,27 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = $request->validate([
+            'firstname'=> 'required|min:4',
+            'lastname'=> 'required|min:4',
+            'middlename'=> 'required|min:4',
+            'adrress'=> 'required',
+            'contactNumber'=> 'required|min:11|max:11',
+            'emailAddress'=> 'required'
+        ]);
+
+        $member = new Member();
+
+        $member->firstname = $valid['firstname'];
+        $member->lastname = $valid['lastname'];
+        $member->middlename = $valid['middlename'];
+        $member->adrress = $valid['adrress'];
+        $member->contactNumber = $valid['contactNumber'];
+        $member->emailAddress = $valid['emailAddress'];
+
+        $member->save();
+        
+        return "Created!";
     }
 
     /**
@@ -46,7 +67,7 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
+        return $member;
     }
 
     /**
@@ -55,9 +76,19 @@ class MemberController extends Controller
      * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function edit(Member $member)
+    public function edit(Request $request, Member $member)
     {
-        //
+        $request->validate(
+            ['firstname' => 'required' ],
+            ['lastname' => 'required'],
+            ['middlename' => 'required'],
+        );
+
+        $member->update([
+            'firstname'=>$request->firstname,
+            'lastname'=>$request->lastname,
+            'middlename'=>$request->middlename
+        ]);
     }
 
     /**
@@ -80,6 +111,6 @@ class MemberController extends Controller
      */
     public function destroy(Member $member)
     {
-        //
+        $member->delete();
     }
 }
